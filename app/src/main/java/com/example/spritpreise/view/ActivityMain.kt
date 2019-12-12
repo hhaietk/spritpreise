@@ -32,4 +32,9 @@ class ActivityMain : AppCompatActivity() {
             }
         })
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stationViewModel.cancelAllRequests()
+    }
 }

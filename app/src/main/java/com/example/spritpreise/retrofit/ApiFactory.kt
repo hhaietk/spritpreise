@@ -16,7 +16,8 @@ object ApiFactory {
 
         val newUrl = chain.request().url
             .newBuilder()
-            .addQueryParameter("api_key", AppConstants.API_KEY)
+            //.addQueryParameter("api_key", AppConstants.API_KEY)
+            // TODO: why dafuq didn't work
             .build()
 
         val newRequest = chain.request()
