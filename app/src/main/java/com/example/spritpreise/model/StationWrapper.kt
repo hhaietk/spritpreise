@@ -3,6 +3,7 @@ package com.example.spritpreise.model
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class StationWrapper(
 
     @Json(name = "ok")
@@ -14,7 +15,5 @@ data class StationWrapper(
     @Json(name = "status")
     val status : String,
     @Json(name = "stations")
-    val stations : MutableList<Station>,
-    @Json(name = "message")
-    val message : String
+    val stations : List<Station>
 )

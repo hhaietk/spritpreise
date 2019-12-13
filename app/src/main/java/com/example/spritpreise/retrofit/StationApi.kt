@@ -12,7 +12,6 @@ interface StationApi {
 
     @GET("list.php")
     fun getNearbyStations(
-        @Query("apikey") key : String,
         @Query("lat") lat : Float,
         @Query("lng") lng : Float,
         @Query("rad") rad : Float,

@@ -28,7 +28,7 @@ class ActivityMain : AppCompatActivity() {
                     Log.d("TEST", "List of stations: $station")
                 }
             } else {
-                Log.e("TEST", "nullllllllllllll")
+                Log.e("TEST", "null")
             }
         })
     }
