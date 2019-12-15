@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Spritpreise</string>
+    <string name="skip_intro">Skip</string>
+    <string name="next_intro">Next</string>
 </resources>

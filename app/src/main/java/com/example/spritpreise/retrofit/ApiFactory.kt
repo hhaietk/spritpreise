@@ -45,5 +45,5 @@ object ApiFactory {
         .build()
 
     // add more apis here
-    val stationApi : StationApi = retrofit().create(StationApi::class.java)
+    val stationApi : IStationApi = retrofit().create(IStationApi::class.java)
 }

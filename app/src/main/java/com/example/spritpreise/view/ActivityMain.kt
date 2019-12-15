@@ -1,5 +1,6 @@
 package com.example.spritpreise.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,8 @@ class ActivityMain : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        launchIntro()
 
         stationViewModel = ViewModelProviders.of(this).get(StationViewModel::class.java)
 
@@ -36,5 +39,10 @@ class ActivityMain : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         stationViewModel.cancelAllRequests()
+    }
+
+    private fun launchIntro() {
+        val intent = Intent(this, ActivityIntro::class.java)
+        startActivity(intent)
     }
 }
