@@ -1,14 +1,28 @@
 package com.example.spritpreise.view
 
+import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.PorterDuff
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuItem
+import android.view.SurfaceControl
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.spritpreise.R
+import com.example.spritpreise.fragment.SettingsFragment
 import com.example.spritpreise.viewmodel.StationViewModel
+import kotlin.system.exitProcess
 
 class ActivityMain : AppCompatActivity() {
 
@@ -41,6 +55,54 @@ class ActivityMain : AppCompatActivity() {
         stationViewModel.cancelAllRequests()
     }
 
+    // Create icons on toolbar
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+
+        for (index in 0 until menu.size()) {
+            val drawable = menu.getItem(index).icon
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                drawable.setColorFilter(getColor(R.color.md_white_1000), PorterDuff.Mode.SRC_ATOP)
+            } else {
+                drawable.colorFilter = BlendModeColorFilter(R.color.md_white_1000, BlendMode.SRC_ATOP)
+            }
+        }
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_settings_btn -> launchFragment()
+            R.id.menu_location_btn -> Toast.makeText(this, "Location clicked", Toast.LENGTH_SHORT).show()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    // Press back to quit
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            AlertDialog.Builder(this)
+                .setTitle(resources.getString(R.string.app_name))
+                .setMessage("Do you want to quit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes) { _: DialogInterface, _: Int ->
+                    finish()
+                    exitProcess(0)
+                }
+                .show()
+        }
+
+        return true
+    }
+
+    private fun launchFragment() {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, SettingsFragment.newInstance())
+            .commit()
+    }
     private fun launchIntro() {
         val intent = Intent(this, ActivityIntro::class.java)
         startActivity(intent)
