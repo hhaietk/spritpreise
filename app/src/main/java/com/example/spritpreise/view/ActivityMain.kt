@@ -73,7 +73,7 @@ class ActivityMain : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_settings_btn -> launchFragment()
+            R.id.menu_settings_btn -> launchSettingsFragment()
             R.id.menu_location_btn -> Toast.makeText(this, "Location clicked", Toast.LENGTH_SHORT).show()
         }
         return super.onOptionsItemSelected(item)
@@ -97,7 +97,7 @@ class ActivityMain : AppCompatActivity() {
         return true
     }
 
-    private fun launchFragment() {
+    private fun launchSettingsFragment() {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, SettingsFragment.newInstance())
