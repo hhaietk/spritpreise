@@ -9,19 +9,18 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
-import android.view.Menu
-import android.view.MenuItem
-import android.view.SurfaceControl
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.spritpreise.R
 import com.example.spritpreise.fragment.SettingsFragment
 import com.example.spritpreise.viewmodel.StationViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.system.exitProcess
 
 class ActivityMain : AppCompatActivity() {
@@ -48,6 +47,8 @@ class ActivityMain : AppCompatActivity() {
                 Log.e("TEST", "null")
             }
         })
+
+        initUi()
     }
 
     override fun onDestroy() {
@@ -98,6 +99,8 @@ class ActivityMain : AppCompatActivity() {
     }
 
     private fun launchSettingsFragment() {
+        recycler_view_main.visibility = View.GONE
+
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, SettingsFragment.newInstance())
@@ -106,5 +109,12 @@ class ActivityMain : AppCompatActivity() {
     private fun launchIntro() {
         val intent = Intent(this, ActivityIntro::class.java)
         startActivity(intent)
+    }
+
+    private fun initUi() {
+        recycler_view_main.visibility = View.VISIBLE
+        recycler_view_main.setHasFixedSize(true)
+        recycler_view_main.layoutManager = LinearLayoutManager(this)
+
     }
 }
