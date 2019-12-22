@@ -12,18 +12,18 @@ import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.spritpreise.R
+import com.example.spritpreise.adapter.MainAdapter
 import com.example.spritpreise.fragment.SettingsFragment
+import com.example.spritpreise.model.Station
 import com.example.spritpreise.viewmodel.StationViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.system.exitProcess
 
-class ActivityMain : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var stationViewModel: StationViewModel
 
@@ -37,10 +37,12 @@ class ActivityMain : AppCompatActivity() {
 
         stationViewModel.fetchStations()
 
-        stationViewModel.stationsLiveData.observe(this, Observer {
+        stationViewModel.stationsLiveData.observe(this, Observer { stations ->
 
-            if (it != null) {
-                for (station in it) {
+            initUi(stations)
+
+            if (stations != null) {
+                for (station in stations) {
                     Log.d("TEST", "List of stations: $station")
                 }
             } else {
@@ -48,7 +50,6 @@ class ActivityMain : AppCompatActivity() {
             }
         })
 
-        initUi()
     }
 
     override fun onDestroy() {
@@ -107,14 +108,21 @@ class ActivityMain : AppCompatActivity() {
             .commit()
     }
     private fun launchIntro() {
-        val intent = Intent(this, ActivityIntro::class.java)
+        val intent = Intent(this, IntroActivity::class.java)
         startActivity(intent)
     }
 
-    private fun initUi() {
-        recycler_view_main.visibility = View.VISIBLE
-        recycler_view_main.setHasFixedSize(true)
-        recycler_view_main.layoutManager = LinearLayoutManager(this)
+    private fun initUi(stations: List<Station>) {
+
+        val mainAdapter = MainAdapter(stations)
+        val layoutManagerLinear = LinearLayoutManager(this)
+
+        recycler_view_main.apply {
+            visibility = View.VISIBLE
+            setHasFixedSize(true)
+            layoutManager = layoutManagerLinear
+            adapter = mainAdapter
+        }
 
     }
 }

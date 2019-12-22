@@ -11,7 +11,7 @@ import com.example.spritpreise.R
 import com.example.spritpreise.adapter.IntroAdapter
 import kotlinx.android.synthetic.main.activity_intro.*
 
-class ActivityIntro : AppCompatActivity() {
+class IntroActivity : AppCompatActivity() {
 
     private lateinit var mIntroPages : IntArray
     private lateinit var mDots : Array<TextView?>

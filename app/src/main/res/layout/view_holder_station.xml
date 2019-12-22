@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/vh_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name" >
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/vh_brand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Brand" >
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/vh_street"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Street" >
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/vh_open"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Open?" >
+
+    </TextView>
+
+</LinearLayout>
