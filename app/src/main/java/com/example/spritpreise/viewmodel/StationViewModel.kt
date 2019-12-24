@@ -18,12 +18,12 @@ class StationViewModel : ViewModel() {
 
     val stationsLiveData = MutableLiveData<List<Station>>()
 
-    fun fetchStations() {
+    fun fetchStations(lat : Float, lng :Float) {
 
         scope.launch {
 
             // Doing network call on IO Thread
-            val response = ApiFactory.stationApi.getNearbyStations(52.521f, 13.440946f, 1.5f, "all", "dist")
+            val response = ApiFactory.stationApi.getNearbyStations(lat, lng, 1.5f, "all", "dist")
                 .await()
             val stations = response.stations
 

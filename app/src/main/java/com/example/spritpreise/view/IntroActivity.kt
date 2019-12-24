@@ -1,5 +1,6 @@
 package com.example.spritpreise.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.view.View
@@ -73,13 +74,22 @@ class IntroActivity : AppCompatActivity() {
         view_pager_intro.adapter = introAdapter
         view_pager_intro.addOnPageChangeListener(viewPagerPageChangedListener)
 
-        btn_skip_intro.setOnClickListener { finish() }
+        btn_skip_intro.setOnClickListener {
+            startMainActivity()
+        }
+
         btn_next_intro.setOnClickListener {
             if (view_pager_intro.currentItem < mIntroPages.size - 1) {
                 view_pager_intro.currentItem++
             } else {
-                finish()
+                startMainActivity()
             }
         }
+    }
+
+    private fun startMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

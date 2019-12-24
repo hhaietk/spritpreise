@@ -8,11 +8,4 @@
         android:title="Location"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/menu_settings_btn"
-        android:icon="@drawable/settings_button"
-        android:orderInCategory="100"
-        android:title="Settings"
-        app:showAsAction="ifRoom" />
-
 </menu>

@@ -6,17 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 
-class IntroAdapter : PagerAdapter {
+class IntroAdapter(introPages: IntArray, context: Context) : PagerAdapter() {
 
     private lateinit var mLayoutInflater: LayoutInflater
-    private var mIntroPages : IntArray
-    private var mContext : Context
-
-
-    constructor(introPages : IntArray , context : Context) {
-        mIntroPages = introPages
-        mContext = context
-    }
+    private var mIntroPages : IntArray = introPages
+    private var mContext : Context = context
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         mLayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

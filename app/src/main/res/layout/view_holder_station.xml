@@ -5,36 +5,62 @@
     android:layout_height="wrap_content"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/vh_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name" >
+        android:orientation="vertical"
+        android:layout_weight="2">
 
-    </TextView>
+        <TextView
+            android:id="@+id/vh_brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Brand"
+            android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/vh_brand"
+        <TextView
+            android:id="@+id/vh_street"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Street"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/vh_open"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Open?"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Brand" >
+        android:orientation="vertical"
+        android:layout_weight="1">
 
-    </TextView>
+        <TextView
+            android:id="@+id/vh_e5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Super E5"
+            android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/vh_street"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Street" >
+        <TextView
+            android:id="@+id/vh_e10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Super E10"
+            android:textSize="20dp" />
 
-    </TextView>
+        <TextView
+            android:id="@+id/vh_diesel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Diesel"
+            android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/vh_open"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Open?" >
-
-    </TextView>
+    </LinearLayout>
 
 </LinearLayout>
