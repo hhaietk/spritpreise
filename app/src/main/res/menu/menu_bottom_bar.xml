@@ -8,12 +8,12 @@
     <item
         android:id="@+id/menu_favourite"
         android:icon="@drawable/baseline_favourite_flag_black_24"
-        android:title="Favourite Station"
+        android:title="Favourite"
         />
     <item
         android:id="@+id/menu_calculator"
         android:icon="@drawable/baseline_progress_black_24"
-        android:title="Price Calculator"
+        android:title="Consumption"
         />
 
     <item

@@ -51,9 +51,9 @@ class MainAdapter(private val mData : MutableList<Station>)
         }
 
         // TODO: Optimize using StringBuilder, not to create new String object each time calling +
-        holder.e5.text = "Super E5: ".plus(mData[position].e5).plus("€")
-        holder.e10.text = "Super E10: ".plus(mData[position].e10).plus("€")
-        holder.diesel.text = "Diesel: ".plus(mData[position].diesel).plus("€")
+        holder.e5.text = "Super E5: ".plus(mData[position].e5)
+        holder.e10.text = "Super E10: ".plus(mData[position].e10)
+        holder.diesel.text = "Diesel: ".plus(mData[position].diesel)
     }
 
     fun addData(stations : List<Station>) {
