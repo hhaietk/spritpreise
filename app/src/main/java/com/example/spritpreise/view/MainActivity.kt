@@ -23,6 +23,7 @@ import com.example.spritpreise.R
 import com.example.spritpreise.adapter.MainAdapter
 import com.example.spritpreise.fragment.SettingsFragment
 import com.example.spritpreise.model.Station
+import com.example.spritpreise.utils.Constants
 import com.example.spritpreise.viewmodel.StationViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_cor.*
@@ -131,6 +132,12 @@ class MainActivity : AppCompatActivity(), LocationListener {
             setHasFixedSize(true)
             layoutManager = layoutManagerLinear
             adapter = mMainAdapter
+        }
+
+        mMainAdapter.onItemClick = { station ->
+            val i = Intent(this, DetailActivity::class.java)
+            i.putExtra(Constants.EXTRA_STATION, station)
+            startActivity(i)
         }
 
         bottom_bar_main_act.setOnNavigationItemSelectedListener { item ->

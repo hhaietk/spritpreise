@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/md_white_1000"
+        android:background="@color/colorPrimary"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:menu="@menu/menu_bottom_bar"
         app:itemIconTint="@color/on_scroll_hide_bottom_navigation_check_item_selector"
-        app:itemTextColor="@color/on_scroll_hide_bottom_navigation_check_item_selector" />
+        app:itemTextColor="@color/primaryTextColor" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

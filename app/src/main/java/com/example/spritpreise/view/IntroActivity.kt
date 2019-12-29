@@ -10,6 +10,7 @@ import androidx.core.text.HtmlCompat
 import androidx.viewpager.widget.ViewPager
 import com.example.spritpreise.R
 import com.example.spritpreise.adapter.IntroAdapter
+import com.example.spritpreise.utils.UiTools
 import kotlinx.android.synthetic.main.activity_intro.*
 
 class IntroActivity : AppCompatActivity() {
@@ -54,7 +55,12 @@ class IntroActivity : AppCompatActivity() {
         val viewPagerPageChangedListener = object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) { }
 
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) { }
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                when(position) {
+                    0 -> UiTools.setStatusBarColor(this@IntroActivity, getColor(R.color.md_green_500))
+                    1 -> UiTools.setStatusBarColor(this@IntroActivity, getColor(R.color.md_blue_600))
+                }
+            }
 
             override fun onPageSelected(position: Int) {
                 setPage(position)

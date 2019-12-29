@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Spritpreise</string>
+    <string name="app_name">Gas Price</string>
     <string name="skip_intro">Skip</string>
     <string name="next_intro">Next</string>
     <string name="quit_confirmation">Do you want to quit?</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

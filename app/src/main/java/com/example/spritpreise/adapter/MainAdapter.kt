@@ -9,17 +9,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.spritpreise.R
 import com.example.spritpreise.model.Station
 import kotlinx.android.synthetic.main.view_holder_station.view.*
+import java.lang.StringBuilder
+import java.util.*
 
 class MainAdapter(private val mData : MutableList<Station>)
     : RecyclerView.Adapter<MainAdapter.StationViewHolder>() {
 
-    inner class StationViewHolder(view : View) : RecyclerView.ViewHolder(view) {
-        val brand : TextView = view.vh_brand
-        val street : TextView = view.vh_street
-        val isOpen : TextView = view.vh_open
-        val e5 : TextView = view.vh_e5
-        val e10 : TextView = view.vh_e10
-        val diesel : TextView = view.vh_diesel
+    var onItemClick : ((Station) -> Unit)? = null
+
+    inner class StationViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+
+        init {
+            itemView.setOnClickListener { onItemClick?.invoke(mData[adapterPosition]) }
+        }
+
+        val brand : TextView = itemView.vh_brand
+        val street : TextView = itemView.vh_street
+        val isOpen : TextView = itemView.vh_open
+        val e5 : TextView = itemView.vh_e5
+        val e10 : TextView = itemView.vh_e10
+        val diesel : TextView = itemView.vh_diesel
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StationViewHolder {
@@ -34,13 +43,17 @@ class MainAdapter(private val mData : MutableList<Station>)
     }
 
     override fun onBindViewHolder(holder: StationViewHolder, position: Int) {
-        holder.brand.text = mData[position].brand.toLowerCase().capitalize()
-        holder.street.text = mData[position].street.toLowerCase().capitalize()
+        val station = mData[position]
+
+        holder.apply {
+            brand.text = station.brand.toLowerCase().capitalize()
+            street.text = formatStreetName(station.street).plus(" ${station.houseNumber}")
+        }
 
         var colorOpenText = Color.GREEN
         var openText = "Open"
 
-        if (!mData[position].isOpen) {
+        if (!station.isOpen) {
             colorOpenText = Color.RED
             openText = "Closed"
         }
@@ -50,10 +63,11 @@ class MainAdapter(private val mData : MutableList<Station>)
             setTextColor(colorOpenText)
         }
 
-        // TODO: Optimize using StringBuilder, not to create new String object each time calling +
-        holder.e5.text = "Super E5: ".plus(mData[position].e5)
-        holder.e10.text = "Super E10: ".plus(mData[position].e10)
-        holder.diesel.text = "Diesel: ".plus(mData[position].diesel)
+        holder.apply {
+            e5.text = "Super E5: ".plus(station.e5)
+            e10.text = "Super E10: ".plus(station.e10)
+            diesel.text = "Diesel: ".plus(station.diesel)
+        }
     }
 
     fun addData(stations : List<Station>) {
@@ -63,5 +77,25 @@ class MainAdapter(private val mData : MutableList<Station>)
 
     fun resetData() {
         mData.clear()
+    }
+
+    private fun formatStreetName(street : String) : String {
+        // 1.Case: MARGARETE-SOMMER-STR. 2. We do split by "-"
+        var streetName = street.split("-")
+        if (streetName.size == 1) {
+            // 2.Case: Blaubeurer str. We do split by " "
+            streetName = street.split(" ")
+            if (streetName.size == 1) {
+                return street.toLowerCase().capitalize()
+            }
+            // 2.Case
+            val joiner2 = StringJoiner(" ")
+            streetName.forEach { word -> joiner2.add(word.toLowerCase().capitalize()) }
+            return joiner2.toString()
+        }
+        // 1.Case
+        val joiner1 = StringJoiner("-")
+        streetName.forEach { word -> joiner1.add(word.toLowerCase().capitalize()) }
+        return joiner1.toString()
     }
 }

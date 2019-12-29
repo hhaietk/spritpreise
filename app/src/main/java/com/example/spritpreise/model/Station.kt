@@ -1,8 +1,11 @@
 package com.example.spritpreise.model
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @JsonClass(generateAdapter = true)
 data class Station(
 
@@ -30,4 +33,4 @@ data class Station(
     val houseNumber : String,
     @Json(name = "postCode")
     val postCode : String
-)
+) : Parcelable
