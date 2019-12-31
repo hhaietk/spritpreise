@@ -2,23 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_home"
-        android:icon="@drawable/baseline_home_line_24"
+        android:icon="@drawable/home_black_24dp"
         android:title="Home"
         />
     <item
         android:id="@+id/menu_favourite"
-        android:icon="@drawable/baseline_favourite_flag_black_24"
+        android:icon="@drawable/star_black_24dp"
         android:title="Favourite"
         />
     <item
         android:id="@+id/menu_calculator"
-        android:icon="@drawable/baseline_progress_black_24"
+        android:icon="@drawable/consumption_black_24dp"
         android:title="Consumption"
         />
 
     <item
         android:id="@+id/menu_settings"
-        android:icon="@drawable/baseline_setting_black_24"
+        android:icon="@drawable/settings_black_24dp"
         android:title="Settings"
         />
 </menu>

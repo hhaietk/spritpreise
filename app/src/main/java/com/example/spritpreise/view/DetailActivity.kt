@@ -83,9 +83,8 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun initToolbar() {
         toolbar_detail.apply {
-            setNavigationIcon(R.drawable.baseline_arrow_back_black_24)
+            setNavigationIcon(R.drawable.arrow_back_black_24dp)
             title = mStation?.brand
-            setTitleTextColor(getColor(R.color.md_black_1000))
         }
 
         setSupportActionBar(toolbar_detail)
@@ -94,22 +93,21 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback {
         collapsing_toolbar_detail.apply {
             collapsedTitleGravity = Gravity.START
             expandedTitleGravity = Gravity.START or Gravity.BOTTOM
-            setCollapsedTitleTextColor(getColor(R.color.md_black_1000))
-            setExpandedTitleColor(getColor(R.color.md_black_1000))
         }
     }
 
     private fun initActions() {
-        //TODO: send intent to open google maps
-        floating_btn_direction.setOnClickListener {
-            val googleMapUri = Uri.parse("geo:0,0?q=${mStation?.lat},${mStation?.lng}(${mStation?.brand})")
-            val mapIntent = Intent(Intent.ACTION_VIEW, googleMapUri)
-            mapIntent.also {intent ->
-                intent.setPackage("com.google.android.apps.maps")
-                intent.resolveActivity(packageManager)?.let { startActivity(mapIntent) }
-                    ?: run { Toast.makeText(
-                        this, "Google Maps is not installed", Toast.LENGTH_SHORT).show() }
-            }
+        floating_btn_direction.setOnClickListener { openGoogleMap() }
+    }
+
+    private fun openGoogleMap() {
+        val googleMapUri = Uri.parse("geo:0,0?q=${mStation?.lat},${mStation?.lng}(${mStation?.brand})")
+        val mapIntent = Intent(Intent.ACTION_VIEW, googleMapUri)
+        mapIntent.also {intent ->
+            intent.setPackage("com.google.android.apps.maps")
+            intent.resolveActivity(packageManager)?.let { startActivity(mapIntent) }
+                ?: run { Toast.makeText(
+                    this, "Google Maps is not installed", Toast.LENGTH_SHORT).show() }
         }
     }
 }

@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.spritpreise.R
 import com.example.spritpreise.model.Station
 import kotlinx.android.synthetic.main.view_holder_station.view.*
-import java.lang.StringBuilder
 import java.util.*
 
 class MainAdapter(private val mData : MutableList<Station>)

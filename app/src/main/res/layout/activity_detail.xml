@@ -10,8 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/colorPrimary"
-        android:clickable="true"
-        android:src="@drawable/baseline_home_line_24"
+        android:src="@drawable/navigation_black_24dp"
         app:layout_anchor="@id/app_bar_detail"
         app:layout_anchorGravity="bottom|end" />
 
@@ -24,7 +23,6 @@
             android:id="@+id/collapsing_toolbar_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
             android:background="@color/md_white_1000"
             app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -57,7 +55,6 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/md_grey_100"
         android:scrollbars="none"
         android:scrollingCache="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -69,11 +66,9 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView_gas_price_detail"
+                android:background="@color/md_grey_100"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -83,65 +78,238 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:id="@+id/imageView29"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:id="@+id/price_img"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:tint="@color/md_grey_600"
+                        app:layout_constraintBottom_toBottomOf="@+id/price_tv"
+                        app:layout_constraintEnd_toStartOf="@id/price_tv"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/baseline_home_line_24" />
+                        app:srcCompat="@drawable/euro_symbol_black_24dp" />
 
                     <TextView
-                        android:id="@+id/phoneTextView"
+                        android:id="@+id/price_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="16dp"
-                        android:text="(095) 03212653"
+                        android:text="Prices"
                         android:textAlignment="viewStart"
-                        android:textSize="@dimen/font_body_size"
+                        android:textSize="@dimen/text_title"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/imageView29"
+                        app:layout_constraintStart_toEndOf="@id/price_img"
                         app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/e5_detail_tv"/>
+
+                    <TextView
+                        android:id="@+id/e5_detail_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Super E5"
+                        android:textSize="@dimen/text_content"
+                        app:layout_constraintEnd_toEndOf="@+id/price_tv"
+                        app:layout_constraintStart_toStartOf="@id/price_tv"
+                        app:layout_constraintTop_toBottomOf="@id/price_tv" />
+
+                    <TextView
+                        android:id="@+id/e10_detail_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Super E10"
+                        android:textSize="@dimen/text_content"
+                        app:layout_constraintEnd_toEndOf="@+id/e5_detail_tv"
+                        app:layout_constraintStart_toStartOf="@id/e5_detail_tv"
+                        app:layout_constraintTop_toBottomOf="@id/e5_detail_tv" />
+
+                    <TextView
+                        android:id="@+id/diesel_detail_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="Diesel"
+                        android:textSize="@dimen/text_content"
+                        app:layout_constraintEnd_toEndOf="@+id/e10_detail_tv"
+                        app:layout_constraintStart_toStartOf="@id/e10_detail_tv"
+                        app:layout_constraintTop_toBottomOf="@id/e10_detail_tv"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_view_station_desc"
+                android:id="@+id/cardview_favourite"
+                android:background="@color/md_grey_100"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardView_gas_price_detail">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="16dp">
+
+                    <CheckBox
+                        android:id="@+id/favorite_check_box"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
                     <TextView
-                        android:id="@+id/station_desc_tv"
-                        android:layout_width="match_parent"
+                        android:id="@+id/station_favourite_tv"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Mark station as favourite"
+                        android:textSize="@dimen/text_content" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_open_hours_detail"
+                android:background="@color/md_grey_100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardview_favourite">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/open_hours_img"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo"
-                        android:textAlignment="viewStart"
-                        android:textSize="@dimen/font_body_size"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@+id/open_hours_tv"
+                        app:layout_constraintEnd_toStartOf="@id/open_hours_tv"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/clock_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/open_hours_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="Opening Hours"
+                        android:textAlignment="viewStart"
+                        android:textSize="@dimen/text_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/open_hours_img"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/mo_fr_detail_tv"/>
+
+                    <TextView
+                        android:id="@+id/mo_fr_detail_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Monday-Friday"
+                        android:textSize="@dimen/text_content"
+                        app:layout_constraintEnd_toEndOf="@+id/open_hours_tv"
+                        app:layout_constraintStart_toStartOf="@id/open_hours_tv"
+                        app:layout_constraintTop_toBottomOf="@id/open_hours_tv" />
+
+                    <TextView
+                        android:id="@+id/sa_detail_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Saturday"
+                        android:textSize="@dimen/text_content"
+                        app:layout_constraintEnd_toEndOf="@+id/mo_fr_detail_tv"
+                        app:layout_constraintStart_toStartOf="@id/mo_fr_detail_tv"
+                        app:layout_constraintTop_toBottomOf="@id/mo_fr_detail_tv" />
+
+                    <TextView
+                        android:id="@+id/su_detail_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="Sunday"
+                        android:textSize="@dimen/text_content"
+                        app:layout_constraintEnd_toEndOf="@+id/sa_detail_tv"
+                        app:layout_constraintStart_toStartOf="@id/sa_detail_tv"
+                        app:layout_constraintTop_toBottomOf="@id/sa_detail_tv"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_address_detail"
+                android:background="@color/md_grey_100"
+                android:layout_marginBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardView_open_hours_detail">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/address_img"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/address_tv"
+                        app:layout_constraintEnd_toStartOf="@id/address_tv"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/location_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/address_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="Address"
+                        android:textAlignment="viewStart"
+                        android:textSize="@dimen/text_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/address_img"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/address_desc_tv"/>
+
+                    <TextView
+                        android:id="@+id/address_desc_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="MARGARETE-SOMMER-STR."
+                        android:textSize="@dimen/text_content"
+                        app:layout_constraintEnd_toEndOf="@+id/address_tv"
+                        app:layout_constraintStart_toStartOf="@id/address_tv"
+                        app:layout_constraintTop_toBottomOf="@id/address_tv"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

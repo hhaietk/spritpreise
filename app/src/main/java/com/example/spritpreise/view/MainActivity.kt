@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_location_btn -> {
+            R.id.menu_refresh_btn -> {
                 try {
                     locationManager.requestLocationUpdates(
                         LocationManager.NETWORK_PROVIDER, 0L, 0f, this)
@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
     override fun onLocationChanged(location: Location?) {
         location?.let {it ->
             mStationViewModel.fetchStations(it.latitude.toFloat(), it.longitude.toFloat())
-        }
+        } ?: run { Toast.makeText(this, "Location is not available", Toast.LENGTH_SHORT).show() }
     }
 
     override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {}
