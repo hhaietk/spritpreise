@@ -27,6 +27,8 @@ import com.example.spritpreise.utils.Constants
 import com.example.spritpreise.viewmodel.StationViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_cor.*
+import java.util.*
+import kotlin.concurrent.timerTask
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity(), LocationListener {
@@ -52,6 +54,11 @@ class MainActivity : AppCompatActivity(), LocationListener {
             mMainAdapter.apply {
                 resetData()
                 addData(stations)
+                Timer().schedule(timerTask {
+                    runOnUiThread {
+                        showRefreshing(false)
+                    }
+                }, 2000)
             }
         })
     }
@@ -69,14 +76,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_refresh_btn -> {
-                try {
-                    locationManager.requestLocationUpdates(
-                        LocationManager.NETWORK_PROVIDER, 0L, 0f, this)
-                } catch (exception : SecurityException) {
-                    Toast.makeText(this, exception.localizedMessage, Toast.LENGTH_SHORT).show()
-                }
-            }
+            R.id.menu_refresh_btn -> requestLocation()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -153,5 +153,24 @@ class MainActivity : AppCompatActivity(), LocationListener {
             true
         }
 
+        main_refresh_layout.setOnRefreshListener {
+            requestLocation()
+        }
+
+    }
+
+    private fun showRefreshing(refresh : Boolean) {
+        main_refresh_layout.isRefreshing = refresh
+        if (refresh) activity_main_layout.visibility = View.GONE else activity_main_layout.visibility = View.VISIBLE
+    }
+
+    private fun requestLocation() {
+        try {
+            locationManager.requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER, 0L, 0f, this)
+            showRefreshing(true)
+        } catch (exception : SecurityException) {
+            Toast.makeText(this, exception.localizedMessage, Toast.LENGTH_SHORT).show()
+        }
     }
 }
