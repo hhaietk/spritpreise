@@ -1,4 +1,4 @@
-package com.example.spritpreise.adapter
+package com.example.spritpreise.view.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

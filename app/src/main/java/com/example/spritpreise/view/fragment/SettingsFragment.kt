@@ -1,4 +1,4 @@
-package com.example.spritpreise.fragment
+package com.example.spritpreise.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -5,20 +5,30 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginBottom
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.example.spritpreise.R
 import com.example.spritpreise.model.Station
+import com.example.spritpreise.model.StationDetail
 import com.example.spritpreise.utils.Constants
+import com.example.spritpreise.utils.GeneralTools
+import com.example.spritpreise.viewmodel.DetailViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.android.synthetic.main.activity_detail.view.*
 
 class DetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
+    private lateinit var mDetailViewModel: DetailViewModel
     private var mStation : Station? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,12 +37,19 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         mStation = intent.getParcelableExtra(Constants.EXTRA_STATION)
 
+        mDetailViewModel = ViewModelProviders.of(this).get(DetailViewModel::class.java)
+        mDetailViewModel.fetchStationDetail(mStation!!.id)
+        mDetailViewModel.stationDetailLiveData.observe(this, Observer {
+                station -> displayAddress(station)
+        })
+
         initToolbar()
 
         //initialize MapView
         map_view_detail.onCreate(savedInstanceState)
         map_view_detail.getMapAsync(this)
 
+        initUi()
         initActions()
     }
 
@@ -50,7 +67,7 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback {
         val markerOptions = MarkerOptions()
         markerOptions.apply {
             position(stationLocation)
-            title(mStation!!.brand)
+            title(mStation!!.brand.toLowerCase().capitalize())
         }
 
         googleMap.apply {
@@ -74,6 +91,7 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onDestroy() {
         super.onDestroy()
         map_view_detail.onDestroy()
+        mDetailViewModel.cancelAllRequests()
     }
 
     override fun onLowMemory() {
@@ -84,7 +102,7 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun initToolbar() {
         toolbar_detail.apply {
             setNavigationIcon(R.drawable.arrow_back_black_24dp)
-            title = mStation?.brand
+            title = mStation!!.brand.toLowerCase().capitalize()
         }
 
         setSupportActionBar(toolbar_detail)
@@ -108,6 +126,52 @@ class DetailActivity : AppCompatActivity(), OnMapReadyCallback {
             intent.resolveActivity(packageManager)?.let { startActivity(mapIntent) }
                 ?: run { Toast.makeText(
                     this, "Google Maps is not installed", Toast.LENGTH_SHORT).show() }
+        }
+    }
+
+    private fun initUi() {
+        e5_detail_tv.text = getString(R.string.superE5).plus(" ${mStation?.e5}")
+        e10_detail_tv.text = getString(R.string.superE10).plus(" ${mStation?.e10}")
+        diesel_detail_tv.text = getString(R.string.diesel).plus(" ${mStation?.diesel}")
+        address_desc_tv.text = GeneralTools.formatStreetName(mStation!!.street)
+            .plus(" ${mStation?.houseNumber}, ${mStation?.postCode} ${mStation!!.place.toLowerCase().capitalize()}")
+    }
+
+    private fun displayAddress(station: StationDetail) {
+
+        val openTime = station.openingTimes
+
+        when (openTime.size) {
+            0 -> {
+                mo_fr_detail_tv.text = getString(R.string.no_address)
+                sa_detail_tv.visibility = View.GONE
+                su_detail_tv.visibility = View.GONE
+                separator_view.visibility = View.VISIBLE
+            }
+            1 -> {
+                mo_fr_detail_tv.text = getString(R.string.address_detail,
+                    openTime[0].day, openTime[0].start, openTime[0].end)
+                sa_detail_tv.visibility = View.GONE
+                su_detail_tv.visibility = View.GONE
+                separator_view.visibility = View.VISIBLE
+            }
+            2 -> {
+                mo_fr_detail_tv.text = getString(R.string.address_detail,
+                    openTime[0].day, openTime[0].start, openTime[0].end)
+                sa_detail_tv.text = getString(R.string.address_detail,
+                    openTime[1].day, openTime[1].start, openTime[1].end)
+                su_detail_tv.visibility = View.GONE
+                separator_view.visibility = View.VISIBLE
+            }
+            3 -> {
+                mo_fr_detail_tv.text = getString(R.string.address_detail,
+                    openTime[0].day, openTime[0].start, openTime[0].end)
+                sa_detail_tv.text = getString(R.string.address_detail,
+                    openTime[1].day, openTime[1].start, openTime[1].end)
+                su_detail_tv.text = getString(R.string.address_detail,
+                    openTime[2].day, openTime[2].start, openTime[2].end)
+                separator_view.visibility = View.GONE
+            }
         }
     }
 }

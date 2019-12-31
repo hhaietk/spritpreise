@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.viewpager.widget.ViewPager
 import com.example.spritpreise.R
-import com.example.spritpreise.adapter.IntroAdapter
+import com.example.spritpreise.view.adapter.IntroAdapter
 import com.example.spritpreise.utils.UiTools
 import kotlinx.android.synthetic.main.activity_intro.*
 

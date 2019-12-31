@@ -1,30 +1,29 @@
 package com.example.spritpreise.view
 
+import android.Manifest
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
-import android.graphics.PorterDuff
+import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.spritpreise.R
-import com.example.spritpreise.adapter.MainAdapter
-import com.example.spritpreise.fragment.SettingsFragment
+import com.example.spritpreise.view.adapter.MainAdapter
+import com.example.spritpreise.view.fragment.SettingsFragment
 import com.example.spritpreise.model.Station
 import com.example.spritpreise.utils.Constants
-import com.example.spritpreise.viewmodel.StationViewModel
+import com.example.spritpreise.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main_cor.*
 import java.util.*
@@ -33,9 +32,9 @@ import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity(), LocationListener {
 
-    private lateinit var mStationViewModel: StationViewModel
+    private lateinit var mMainViewModel: MainViewModel
     private lateinit var mMainAdapter: MainAdapter
-    private lateinit var locationManager : LocationManager
+    private lateinit var mLocationManager : LocationManager
     private val mStations : MutableList<Station> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,13 +43,13 @@ class MainActivity : AppCompatActivity(), LocationListener {
         //TODO: make home a separate fragment
         setContentView(R.layout.activity_main_cor)
 
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        mLocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         initUi()
 
-        mStationViewModel = ViewModelProviders.of(this).get(StationViewModel::class.java)
-        mStationViewModel.fetchStations(52.521f, 13.440946f)
-        mStationViewModel.stationsLiveData.observe(this, Observer { stations ->
+        mMainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        mMainViewModel.fetchStations(52.521f, 13.440946f)
+        mMainViewModel.stationsLiveData.observe(this, Observer { stations ->
             mMainAdapter.apply {
                 resetData()
                 addData(stations)
@@ -65,7 +64,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        mStationViewModel.cancelAllRequests()
+        mMainViewModel.cancelAllRequests()
     }
 
     // Create icons on toolbar
@@ -76,7 +75,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_refresh_btn -> requestLocation()
+            R.id.menu_refresh_btn -> checkLocationPermission()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -101,7 +100,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     override fun onLocationChanged(location: Location?) {
         location?.let {it ->
-            mStationViewModel.fetchStations(it.latitude.toFloat(), it.longitude.toFloat())
+            mMainViewModel.fetchStations(it.latitude.toFloat(), it.longitude.toFloat())
         } ?: run { Toast.makeText(this, "Location is not available", Toast.LENGTH_SHORT).show() }
     }
 
@@ -141,6 +140,9 @@ class MainActivity : AppCompatActivity(), LocationListener {
         }
 
         bottom_bar_main_act.setOnNavigationItemSelectedListener { item ->
+
+            if (item.itemId != R.id.menu_home) showRefreshing(false)
+
             when (item.itemId) {
                 R.id.menu_settings -> launchSettingsFragment()
                 R.id.menu_home -> {
@@ -154,7 +156,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
         }
 
         main_refresh_layout.setOnRefreshListener {
-            requestLocation()
+            checkLocationPermission()
         }
 
     }
@@ -166,11 +168,48 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
     private fun requestLocation() {
         try {
-            locationManager.requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER, 0L, 0f, this)
+            mLocationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, this, null)
             showRefreshing(true)
         } catch (exception : SecurityException) {
             Toast.makeText(this, exception.localizedMessage, Toast.LENGTH_SHORT).show()
+            showRefreshing(false)
+        }
+    }
+
+    private fun checkLocationPermission() {
+        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED)
+            or (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED)) {
+            // Permission is not granted, request permission
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+                Constants.PERMISSION_REQUEST_LOCATION)
+        } else {
+            // Permission is granted, continue
+            requestLocation()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            Constants.PERMISSION_REQUEST_LOCATION -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    // permission was granted, proceed to request location
+                    requestLocation()
+                } else {
+                    // permission denied
+                    Toast.makeText(this, getString(R.string.toast_grant_permission), Toast.LENGTH_LONG).show()
+                    showRefreshing(false)
+                }
+                return
+            }
+
+            else -> {
+                // Ignore all other requests.
+            }
         }
     }
 }

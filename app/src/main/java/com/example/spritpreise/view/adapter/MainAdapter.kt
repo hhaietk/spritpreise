@@ -1,4 +1,4 @@
-package com.example.spritpreise.adapter
+package com.example.spritpreise.view.adapter
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spritpreise.R
 import com.example.spritpreise.model.Station
+import com.example.spritpreise.utils.GeneralTools
 import kotlinx.android.synthetic.main.view_holder_station.view.*
-import java.util.*
 
 class MainAdapter(private val mData : MutableList<Station>)
     : RecyclerView.Adapter<MainAdapter.StationViewHolder>() {
@@ -46,7 +46,7 @@ class MainAdapter(private val mData : MutableList<Station>)
 
         holder.apply {
             brand.text = station.brand.toLowerCase().capitalize()
-            street.text = formatStreetName(station.street).plus(" ${station.houseNumber}")
+            street.text = GeneralTools.formatStreetName(station.street).plus(" ${station.houseNumber}")
         }
 
         var colorOpenText = Color.GREEN
@@ -76,25 +76,5 @@ class MainAdapter(private val mData : MutableList<Station>)
 
     fun resetData() {
         mData.clear()
-    }
-
-    private fun formatStreetName(street : String) : String {
-        // 1.Case: MARGARETE-SOMMER-STR. 2. We do split by "-"
-        var streetName = street.split("-")
-        if (streetName.size == 1) {
-            // 2.Case: Blaubeurer str. We do split by " "
-            streetName = street.split(" ")
-            if (streetName.size == 1) {
-                return street.toLowerCase().capitalize()
-            }
-            // 2.Case
-            val joiner2 = StringJoiner(" ")
-            streetName.forEach { word -> joiner2.add(word.toLowerCase().capitalize()) }
-            return joiner2.toString()
-        }
-        // 1.Case
-        val joiner1 = StringJoiner("-")
-        streetName.forEach { word -> joiner1.add(word.toLowerCase().capitalize()) }
-        return joiner1.toString()
     }
 }

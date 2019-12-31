@@ -223,6 +223,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
                         android:text="Monday-Friday"
                         android:textSize="@dimen/text_content"
                         app:layout_constraintEnd_toEndOf="@+id/open_hours_tv"
@@ -234,6 +235,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
                         android:text="Saturday"
                         android:textSize="@dimen/text_content"
                         app:layout_constraintEnd_toEndOf="@+id/mo_fr_detail_tv"
@@ -251,6 +253,17 @@
                         app:layout_constraintEnd_toEndOf="@+id/sa_detail_tv"
                         app:layout_constraintStart_toStartOf="@id/sa_detail_tv"
                         app:layout_constraintTop_toBottomOf="@id/sa_detail_tv"
+                        app:layout_constraintBottom_toBottomOf="@id/separator_view"/>
+
+                    <View
+                        android:id="@+id/separator_view"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        app:layout_constraintEnd_toEndOf="@id/su_detail_tv"
+                        app:layout_constraintStart_toStartOf="@id/su_detail_tv"
+                        app:layout_constraintTop_toBottomOf="@id/su_detail_tv"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
